@@ -1,0 +1,13 @@
+{
+  "Data": {
+    "ConnectionString": "Data Source=./sample.db"
+  },
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Verbose",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  }
+}
