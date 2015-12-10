@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
 using Sample.Usecases;
 using Sample.Models.Account;
-using System;
 
 namespace Sample.Controllers
 {

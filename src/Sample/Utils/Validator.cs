@@ -52,10 +52,10 @@ namespace Sample.Utils
         }
 
         //<summary>審査処理を行います</summary>
-        public static void Validate(Action<Validator> proc)
+        public static void Validate(Action<Validator> act)
         {
             Validator validator = new Validator();
-            proc(validator);
+            act(validator);
             validator.Verify();
         }
     }

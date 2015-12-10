@@ -45,7 +45,8 @@ namespace Sample.Context.Orm
         public TEntity Load<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             TEntity v = Get(predicate);
-            return v != null ? v : null;
+            if (v != null) return v;
+            else throw new ValidationException(ErrorKeys.EntityNotFound);
         }
 
         public List<TEntity> FindAll<TEntity>() where TEntity : class
@@ -62,11 +63,22 @@ namespace Sample.Context.Orm
         public TEntity Update<TEntity>(TEntity entity) where TEntity : class
         {
             EntitySet<TEntity>().Update(entity);
+            SaveChanges();
             return entity;
         }
         public TEntity Delete<TEntity>(TEntity entity) where TEntity : class
         {
             EntitySet<TEntity>().Remove(entity);
+            SaveChanges();
+            return entity;
+        }
+        public TEntity SaveOrUpdate<TEntity>(TEntity entity) where TEntity : class
+        {
+            if (Entry(entity).State == EntityState.Detached)
+            {
+                EntitySet<TEntity>().Add(entity);
+            }
+            SaveChanges();
             return entity;
         }
     }
