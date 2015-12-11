@@ -13,10 +13,6 @@ namespace Sample.Models
     {
 
         public Repository(DomainHelper dh) : base(dh) { }
-
-        /** 口座 */
-        public DbSet<Account.Account> Accounts { get; set; }
-        /** ログイン情報 */
-        public DbSet<Login> Logins { get; set; }
+        
     }
 }
