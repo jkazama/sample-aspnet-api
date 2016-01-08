@@ -1,7 +1,5 @@
-using Microsoft.Data.Entity;
 using Sample.Context;
 using Sample.Context.Orm;
-using Sample.Models.Account;
 
 namespace Sample.Models
 {
@@ -13,6 +11,6 @@ namespace Sample.Models
     {
 
         public Repository(DomainHelper dh) : base(dh) { }
-        
+
     }
 }

@@ -21,9 +21,10 @@ namespace Sample.Models
 
         private static void InsertTestData(Repository rep)
         {
-            if (rep.Accounts.Count() == 0) {
+            var accounts = rep.EntitySet<Account.Account>();
+            if (accounts.Count() == 0) {
                 var idSample = "sample";
-                rep.Accounts.Add(Acc(idSample));
+                accounts.Add(Acc(idSample));
             }
             // Database
             // var models = (ModelContext)serviceProvider.GetService(typeof(ModelContext));
