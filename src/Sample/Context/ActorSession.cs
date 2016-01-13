@@ -12,18 +12,21 @@ namespace Sample.Context
         private AsyncLocal<Actor> _local = new AsyncLocal<Actor>();
 
         // <summary>利用者セッションへ利用者を紐付けます</summary>
-        public ActorSession bind(Actor actor) {
+        public ActorSession Bind(Actor actor)
+        {
             _local.Value = actor;
             return this;
         }
         // <summary>利用者セッションを破棄します</summary>
-        public ActorSession unbind() {
+        public ActorSession Unbind()
+        {
             _local.Value = null;
             return this;
         }
         // <summary>有効な利用者を返します。紐付けされていない時は匿名者が返されます。</summary>
-        public Actor actor() {
-            return _local.Value != null ? _local.Value : Actor.Anonymous;
+        public Actor Actor()
+        {
+            return _local.Value != null ? _local.Value : Context.Actor.Anonymous;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Sample.Utils;
 
 namespace Sample.Context
 {
@@ -20,14 +21,19 @@ namespace Sample.Context
         }
 
         //<summary>営業日を返します</summary>
-        public DateTime day()
+        public DateTime Day()
         {
             return _mockDate.HasValue ? _mockDate.Value.Date : DateTime.Today;
         }
         //<summary>日時を返します</summary>
-        public DateTime date()
+        public DateTime Date()
         {
             return _mockDate.HasValue ? _mockDate.Value : DateTime.Now;
+        }
+        //<summary>営業日/日時を返します</summary>
+        public TimePoint Tp()
+        {
+            return TimePoint.Of(Day(), Date());
         }
     }
 }
