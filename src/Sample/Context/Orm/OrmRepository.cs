@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Infrastructure;
 
 namespace Sample.Context.Orm
 {
     //<summary>
     // Entity Frameworkが提供するモデル永続化アクセサ
+    // todo: リソースリーク絡みの挙動を調べる
+    // todo: SQL実行系のアプローチを調べる
     //</summary>
     public abstract class OrmRepository : DbContext, IRepository
     {
@@ -15,7 +18,17 @@ namespace Sample.Context.Orm
         {
             this.Helper = Helper;
         }
+        public OrmRepository(DbContextOptions options, DomainHelper Helper) : base(options)
+        {
+            this.Helper = Helper;
+        }
+
         public DomainHelper Helper { get; set; }
+
+        public OrmTemplate Template()
+        {
+            return new OrmTemplate(this);
+        }
 
         public DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
         {

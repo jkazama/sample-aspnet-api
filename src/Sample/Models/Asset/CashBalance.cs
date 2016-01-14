@@ -13,7 +13,7 @@ namespace Sample.Models.Asset
     {
         /** ID */
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         /** 口座ID */
         public string AccountId { get; set; }
         /** 基準日 */
@@ -50,12 +50,12 @@ namespace Sample.Models.Asset
         private static CashBalance Create(Repository rep, string accountId, string currency)
         {
             var now = rep.Helper.Time.Tp();
-            var prev = rep.EntitySet<CashBalance>()
+            var prev = rep.CashBalances
                 .Where(m => m.AccountId == accountId && m.Currency == currency)
                 .OrderBy(m => m.BaseDay)
                 .FirstOrDefault();
             var amount = prev != null ? prev.Amount : decimal.Zero; // 残高繰越考慮
-            return new CashBalance { AccountId = accountId, BaseDay = now.Day, Currency = currency, Amount = amount, UpdateDate = now.Date };
+            return new CashBalance { AccountId = accountId, BaseDay = now.Day, Currency = currency, Amount = amount, UpdateDate = now.Date }.Save(rep);
         }
     }
 }

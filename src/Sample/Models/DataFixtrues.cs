@@ -11,27 +11,25 @@ namespace Sample.Models
         {
             using(var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var rep = serviceScope.ServiceProvider.GetService<Repository>();
-                if (rep.Database.EnsureCreated())
-                {
-                    InsertTestData(rep);
-                }
+                //TODO: 開発環境のみに制約
+                DataFixtures.Initialize(serviceScope.ServiceProvider.GetService<Repository>());
+            }
+        }
+        public static void Initialize(Repository rep)
+        {
+            if (rep.Database.EnsureDeleted() && rep.Database.EnsureCreated())
+            {
+                InsertTestData(rep);
             }
         }
 
         private static void InsertTestData(Repository rep)
         {
-            var accounts = rep.EntitySet<Account.Account>();
-            if (accounts.Count() == 0) {
+            if (rep.Accounts.Count() == 0) {
                 var idSample = "sample";
-                accounts.Add(Acc(idSample));
+                rep.Accounts.Add(Acc(idSample));
             }
-            // Database
-            // var models = (ModelContext)serviceProvider.GetService(typeof(ModelContext));
-            // models.Accounts.Add(
-            //     new Account.Account { Id = "sample", Name = "sample" , Mail = "sample@example.com", StatusType = AccountStatusType.Normal }
-            // );
-            // models.SaveChanges();
+            rep.SaveChanges();
         }
 
         // 口座の簡易生成

@@ -46,7 +46,8 @@ namespace Sample.Models.Account
         //<summary>有効な口座を取得します。</summary>
         public static Account GetValid(Repository rep, string id)
         {
-            return rep.Get<Account>(m => m.Id == id && m.StatusType == AccountStatusType.Normal);
+            Console.WriteLine("in Model");
+            return rep.Load<Account>(m => m.Id == id && m.StatusType == AccountStatusType.Normal);
         }
         //<summary>口座を取得します。(例外付)</summary>
         public static Account Load(Repository rep, string id)
