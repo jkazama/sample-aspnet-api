@@ -23,5 +23,12 @@ namespace Sample.Models
             // db drop / create
             DataFixtures.Initialize(rep);
         }
+
+        protected void Dump(object v)
+        {
+            Console.WriteLine("=========================");
+            Console.WriteLine(v);
+            Console.WriteLine("=========================");
+        }
     }
 }

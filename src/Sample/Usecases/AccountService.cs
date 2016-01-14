@@ -1,4 +1,3 @@
-using System;
 using Sample.Models;
 using Sample.Models.Account;
 

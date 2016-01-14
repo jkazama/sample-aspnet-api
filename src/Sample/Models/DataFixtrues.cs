@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Models.Account;
+using Sample.Models.Asset;
 
 namespace Sample.Models
 {
@@ -9,7 +10,7 @@ namespace Sample.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using(var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 //TODO: 開発環境のみに制約
                 DataFixtures.Initialize(serviceScope.ServiceProvider.GetService<Repository>());
@@ -25,16 +26,24 @@ namespace Sample.Models
 
         private static void InsertTestData(Repository rep)
         {
-            if (rep.Accounts.Count() == 0) {
+            if (rep.Accounts.Count() == 0)
+            {
                 var idSample = "sample";
                 rep.Accounts.Add(Acc(idSample));
             }
             rep.SaveChanges();
         }
 
-        // 口座の簡易生成
-        public static Account.Account Acc(string id) {
+        /** 口座の簡易生成 */
+        public static Account.Account Acc(string id)
+        {
             return new Account.Account { Id = id, Name = id, Mail = "hoge@example.com", StatusType = AccountStatusType.Normal };
+        }
+
+        /** 口座残高の簡易生成 */
+        public static CashBalance Cb(string accountId, DateTime baseDay, string currency, string amount)
+        {
+            return new CashBalance { AccountId = accountId, BaseDay = baseDay, Currency = currency, Amount = decimal.Parse(amount), UpdateDate = DateTime.Now };
         }
     }
 }
