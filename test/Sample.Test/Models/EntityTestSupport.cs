@@ -11,15 +11,15 @@ namespace Sample.Models
     {
         protected Repository rep { get; set; }
 
-        protected virtual void Initialize()
+        protected virtual void Initialize(LogLevel logLevel = LogLevel.Warning)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseSqlite("Data Source=./test.db");
+            optionsBuilder.UseSqlite("Data Source=./bin/test-" + this.GetType().FullName + ".db");
             this.rep = new Repository(optionsBuilder.Options, new DomainHelper());
             // for log
             var contextServices = ((IInfrastructure<IServiceProvider>)rep).Instance;
             var loggerFactory = contextServices.GetRequiredService<ILoggerFactory>();
-            loggerFactory.AddConsole(LogLevel.Information);
+            loggerFactory.AddConsole(logLevel);
             // db drop / create
             DataFixtures.Initialize(rep);
         }

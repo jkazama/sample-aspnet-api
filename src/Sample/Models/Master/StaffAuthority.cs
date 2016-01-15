@@ -15,7 +15,7 @@ namespace Sample.Models.Master
         /** 社員ID */
         public string StaffId { get; set; }
         /** 権限名称(「プリフィックスにROLE_」を付与してください) */
-        public string authority { get; set; }
+        public string Authority { get; set; }
 
         //<summary>社員IDに紐付く権限一覧を返します</summary>
         public static List<StaffAuthority> Find(Repository rep, string staffId)

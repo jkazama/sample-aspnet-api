@@ -35,11 +35,17 @@ namespace Sample.Context.Orm
             return this.Set<TEntity>();
         }
 
+        public void Tx(Action fn)
+        {
+            this.Tx<object>(() => { fn(); return true; });
+        }
+
         public TResult Tx<TResult>(Func<TResult> fn)
         {
             using (var transaction = this.Database.BeginTransaction())
             {
                 var ret = fn();
+                Flush();
                 transaction.Commit();
                 return ret;
             }

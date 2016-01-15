@@ -33,17 +33,17 @@ namespace Sample.Models.Master
             return p.Bind(this).Update(rep);
         }
         //<summary>社員を取得します</summary>
-        public Staff Get(Repository rep, string id)
+        public static Staff Get(Repository rep, string id)
         {
             return rep.Get<Staff>(m => m.Id == id);
         }
         //<summary>社員を取得します(例外付)</summary>
-        public Staff Load(Repository rep, string id)
+        public static Staff Load(Repository rep, string id)
         {
             return rep.Load<Staff>(m => m.Id == id);
         }
         //<summary>社員を検索します</summary>
-        public List<Staff> Find(Repository rep, FindStaff p)
+        public static List<Staff> Find(Repository rep, FindStaff p)
         {
             return rep.Set<Staff>()
                 .Where(m =>
@@ -53,9 +53,9 @@ namespace Sample.Models.Master
                 ).ToList();
         }
         //<summary>社員を登録します</summary>
-        public Staff Register(Repository rep, RegStaff p)
+        public static Staff Register(Repository rep, RegStaff p)
         {
-            Validator.Validate(v => v.CheckField(Get(rep, p.Id) == null, "id", ErrorKeys.DuplicateId));
+            Validator.Validate(v => v.CheckField(Staff.Get(rep, p.Id) == null, "id", ErrorKeys.DuplicateId));
             return p.Create(p.PlainPassword).Save(rep); //TODO: 暗号化
         }
     }

@@ -42,7 +42,7 @@ namespace Sample.Models.Master
             return rep.Load<Holiday>(m => m.Category == category && m.Day == day);
         }
 
-        //<summary>休日情報を検索します</summary>
+        //<summary>休日情報を検索します low: きちんとしたSQLで発行したいなら年度をfrom-to指定で抽出する</summary>
         public static List<Holiday> Find(Repository rep, int year)
         {
             return Find(rep, year, CategoryDefault);
@@ -55,9 +55,9 @@ namespace Sample.Models.Master
         //<summary>休日マスタを登録します</summary>
         public static void Register(Repository rep, RegHoliday p)
         {
-            var models = rep.Set<Holiday>();
-            models.RemoveRange(models.Where(m => m.Category == p.Category && m.Day.Year == p.Year));
-            models.AddRange(p.List.Select(m => m.Create(p)));
+            rep.Holidays.RemoveRange(rep.Holidays.Where(m => m.Category == p.Category && m.Day.Year == p.Year));
+            rep.Holidays.AddRange(p.List.Select(m => m.Create(p)).ToList());
+            rep.SaveChanges();
         }
     }
 

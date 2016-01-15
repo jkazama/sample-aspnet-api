@@ -15,9 +15,9 @@ namespace Sample.Models.Asset
             var baseDay = rep.Helper.Time.Day();
             var cb = DataFixtures.Cb("test1", baseDay, "JPY", "1000").Save(rep);
             // 1000 + 19000 = 20000
-            Assert.True(cb.Add(rep, 19000M).Amount == 20000M);
+            Assert.Equal(cb.Add(rep, 19000M).Amount, 20000M);
             // 20000 - 2000 = 18000
-            Assert.True(cb.Add(rep, -2000M).Amount == 18000M);
+            Assert.Equal(cb.Add(rep, -2000M).Amount, 18000M);
         }
 
         [Fact]
@@ -31,21 +31,21 @@ namespace Sample.Models.Asset
 
             // 存在している残高の検証
             var cbNormal = CashBalance.GetOrNew(rep, "test1", "JPY");
-            Assert.True(cbNormal.AccountId == "test1");
-            Assert.True(cbNormal.Currency == "JPY");
-            Assert.True(cbNormal.Amount == 1000M);
+            Assert.Equal(cbNormal.AccountId, "test1");
+            Assert.Equal(cbNormal.Currency, "JPY");
+            Assert.Equal(cbNormal.Amount, 1000M);
 
             // 基準日に存在していない残高の繰越検証
             var cbRoll = CashBalance.GetOrNew(rep, "test2", "JPY");
-            Assert.True(cbRoll.AccountId == "test2");
-            Assert.True(cbRoll.Currency == "JPY");
-            Assert.True(cbRoll.Amount == 3000M);
+            Assert.Equal(cbRoll.AccountId, "test2");
+            Assert.Equal(cbRoll.Currency, "JPY");
+            Assert.Equal(cbRoll.Amount, 3000M);
 
             // 残高を保有しない口座の生成検証
             var cbNew = CashBalance.GetOrNew(rep, "test3", "JPY");
-            Assert.True(cbNew.AccountId == "test3");
-            Assert.True(cbNew.Currency == "JPY");
-            Assert.True(cbNew.Amount == decimal.Zero);
+            Assert.Equal(cbNew.AccountId, "test3");
+            Assert.Equal(cbNew.Currency, "JPY");
+            Assert.Equal(cbNew.Amount, decimal.Zero);
         }
 
     }

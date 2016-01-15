@@ -20,7 +20,7 @@ namespace Sample.Models.Account
         /** 金融機関コード */
         public string FiCode { get; set; }
         /** 金融機関口座ID */
-        public string FiAccountCode { get; set; }
+        public string FiAccountId { get; set; }
 
         public static FiAccount Load(Repository rep, string accountId, string category, string currency)
         {

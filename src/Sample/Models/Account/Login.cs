@@ -17,14 +17,14 @@ namespace Sample.Models.Account
         public string Password { get; set; }
 
         //<summary>ログインIDを変更します</summary>
-        public Login change(Repository rep, ChgLoginId p)
+        public Login Change(Repository rep, ChgLoginId p)
         {
             bool exists = rep.Get<Login>(m => m.Id != Id && m.LoginId == p.LoginId) != null;
             Validate(v => v.CheckField(!exists, "loginId", ErrorKeys.DuplicateId));
             return p.Bind(this).Update(rep);
         }
         //<summary>パスワードを変更します</summary>
-        public Login change(Repository rep, ChgPassword p)
+        public Login Change(Repository rep, ChgPassword p)
         {
             return p.Bind(this, p.PlainPassword).Update(rep); //TODO: 暗号化
         }
