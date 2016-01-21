@@ -139,7 +139,6 @@ namespace Sample.Models.Asset
             criteria.Add(c => p.UpdFromDay.Date <= c.UpdateDate && c.UpdateDate <= toDay);
             criteria.Add(p.Currency != null,
                 c => c.Currency == p.Currency);
-            Console.WriteLine(p.StatusTypes);
             criteria.Add(0 < p.StatusTypes.Length,
                 c => p.StatusTypes.Contains(c.StatusType));
             return rep.Template<CashInOut>().Find(criteria.Predicates(),

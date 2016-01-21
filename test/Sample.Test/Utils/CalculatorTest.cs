@@ -7,11 +7,10 @@ namespace Sample.Test.Utils
     public class CalculatorTest
     {
         [Fact]
-        public void PassingTest()
+        public void Calculate()
         {
 			var calc = Calculator.Init();
-            Console.WriteLine(calc.Add(3).Subtract(2).Multiply(8).DivideBy(2).DecimalValue());
-			Assert.True(true);
+            Assert.Equal(4, calc.Add(3).Subtract(2).Multiply(8).DivideBy(2).DecimalValue());
 		}
 	}
 }
