@@ -19,6 +19,8 @@ namespace Sample.Models
         public DbSet<Account.Login> Logins { get; set; }
 
         public DbSet<Asset.CashBalance> CashBalances { get; set; }
+        public DbSet<Asset.Cashflow> Cashflows { get; set; }
+        public DbSet<Asset.CashInOut> CashInOuts { get; set; }
 
         public DbSet<Master.Holiday> Holidays { get; set; }
         public DbSet<Master.SelfFiAccount> SelfFiAccounts { get; set; }

@@ -20,7 +20,7 @@ namespace Sample.Models.Master
         //<summary>社員IDに紐付く権限一覧を返します</summary>
         public static List<StaffAuthority> Find(Repository rep, string staffId)
         {
-            return rep.Set<StaffAuthority>().Where(m => m.StaffId == staffId).ToList();
+            return rep.Template<StaffAuthority>().Find(m => m.StaffId == staffId);
         }
     }
 }

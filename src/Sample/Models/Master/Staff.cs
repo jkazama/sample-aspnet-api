@@ -45,12 +45,9 @@ namespace Sample.Models.Master
         //<summary>社員を検索します</summary>
         public static List<Staff> Find(Repository rep, FindStaff p)
         {
-            return rep.Set<Staff>()
-                .Where(m =>
-                    m.Id.Contains(p.Keyword) || m.Name.Contains(p.Keyword)
-                ).OrderBy(m =>
-                    m.Id
-                ).ToList();
+            return rep.Template<Staff>().Find(
+                m => m.Id.Contains(p.Keyword) || m.Name.Contains(p.Keyword),
+                query => query.OrderBy(m => m.Id));
         }
         //<summary>社員を登録します</summary>
         public static Staff Register(Repository rep, RegStaff p)

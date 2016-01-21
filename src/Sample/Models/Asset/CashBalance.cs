@@ -50,9 +50,10 @@ namespace Sample.Models.Asset
         private static CashBalance Create(Repository rep, string accountId, string currency)
         {
             var now = rep.Helper.Time.Tp();
-            var prev = rep.CashBalances
-                .Where(m => m.AccountId == accountId && m.Currency == currency)
-                .OrderBy(m => m.BaseDay)
+            var prev = rep.Template<CashBalance>()
+                .Find(
+                    m => m.AccountId == accountId && m.Currency == currency,
+                    query => query.OrderBy(m => m.BaseDay))
                 .FirstOrDefault();
             var amount = prev != null ? prev.Amount : decimal.Zero; // 残高繰越考慮
             return new CashBalance { AccountId = accountId, BaseDay = now.Day, Currency = currency, Amount = amount, UpdateDate = now.Date }.Save(rep);

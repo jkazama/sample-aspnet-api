@@ -5,9 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Sample.Models.Account;
 using Sample.Models.Asset;
 using Sample.Models.Master;
+using Sample.Utils;
+using Sample.Context;
 
 namespace Sample.Models
 {
+    //<summary>
+    // データ生成用のサポートコンポーネント。
+    // <p>テストや開発時の簡易マスタデータ生成を目的としているため本番での利用は想定していません。
+    //</summary>
     public static class DataFixtures
     {
         public static void Initialize(IServiceProvider serviceProvider)
@@ -30,8 +36,21 @@ namespace Sample.Models
         {
             if (rep.Accounts.Count() == 0)
             {
+                var ccy = "JPY";
+                var baseDay = TimePoint.Now().Day;
+
+                // 社員: admin (passも同様)
+                Staff("admin").Save(rep);
+
+                // 自社金融機関
+                SelfFiAcc(Remarks.CashOut, ccy).Save(rep);
+
+                // 口座: sample (passも同様)
                 var idSample = "sample";
-                rep.Accounts.Add(Acc(idSample));
+                Acc(idSample).Save(rep);
+                Login(idSample).Save(rep);
+                FiAcc(idSample, Remarks.CashOut, ccy).Save(rep);
+                Cb(idSample, baseDay, ccy, "1000000").Save(rep);
             }
             rep.SaveChanges();
         }
@@ -60,6 +79,49 @@ namespace Sample.Models
         public static CashBalance Cb(string accountId, DateTime baseDay, string currency, string amount)
         {
             return new CashBalance { AccountId = accountId, BaseDay = baseDay, Currency = currency, Amount = decimal.Parse(amount), UpdateDate = DateTime.Now };
+        }
+
+        /** キャッシュフローの簡易生成 */
+        public static Cashflow Cf(String accountId, String amount, DateTime eventDay, DateTime valueDay)
+        {
+            return CfReg(accountId, amount, valueDay).Create(TimePoint.Of(eventDay));
+        }
+
+        /** キャッシュフロー登録パラメタの簡易生成 */
+        public static RegCashflow CfReg(string accountId, string amount, DateTime valueDay)
+        {
+            return new RegCashflow {
+                AccountId = accountId,
+                Currency = "JPY",
+                Amount = decimal.Parse(amount),
+                CashflowType = CashflowType.CashIn,
+                Remark = "cashIn",
+                EventDay = null,
+                ValueDay = valueDay
+            };
+        }
+
+        /** 振込入出金依頼の簡易生成 [発生日(T+1)/受渡日(T+3)] */
+        public static CashInOut Cio(string accountId, string absAmount, bool withdrawal, TimePoint now)
+        {
+            var eventDay = now.Day.AddDays(1);
+            var valueDay = now.Day.AddDays(3);
+            return new CashInOut {
+                AccountId = accountId,
+                Currency = "JPY",
+                AbsAmount = Decimal.Parse(absAmount),
+                Withdrawal = withdrawal,
+                RequestDay = now.Day,
+                RequestDate = now.Date,
+                EventDay = eventDay,
+                ValueDay = valueDay,
+                TargetFiCode = "tFiCode",
+                TargetFiAccountId = "tFiAccId",
+                SelfFiCode = "sFiCode",
+                SelfFiAccountId = "sFiAccId",
+                StatusType = ActionStatusType.Unprocessed,
+                UpdateDate = now.Date
+            };
         }
 
         // master

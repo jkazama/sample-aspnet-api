@@ -49,7 +49,7 @@ namespace Sample.Models.Master
         }
         public static List<Holiday> Find(Repository rep, int year, string category)
         {
-            return rep.Set<Holiday>().Where(m => m.Category == category && m.Day.Year == year).ToList();
+            return rep.Template<Holiday>().Find(m => m.Category == category && m.Day.Year == year);
         }
 
         //<summary>休日マスタを登録します</summary>

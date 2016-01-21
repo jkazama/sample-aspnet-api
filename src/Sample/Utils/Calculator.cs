@@ -77,6 +77,14 @@ namespace Sample.Utils
             return this;
         }
 
+        public int IntValue()
+        {
+            return Decimal.ToInt32(DecimalValue());
+        }
+        public long LongValue()
+        {
+            return Decimal.ToInt64(DecimalValue());
+        }
         public decimal DecimalValue()
         {
             return Rounding(_value, true);

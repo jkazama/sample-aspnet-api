@@ -1,9 +1,9 @@
 namespace Sample.Models.Asset
 {
     //<summary>
-    //審査例外で用いるメッセージキー定数
+    // 審査例外で用いるメッセージキー定数
     //</summary>
-    public static class ErrorKeys
+    public static class AssetErrorKeys
     {
         /** 受渡日を迎えていないため実現できません */
         public const string CashflowRealizeDay = "error.Cashflow.realizeDay";
