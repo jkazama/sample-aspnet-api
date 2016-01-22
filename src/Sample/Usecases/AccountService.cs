@@ -8,16 +8,21 @@ namespace Sample.Usecases
     //</summary>
     public class AccountService
     {
-        private Repository _rep;
+        private readonly Repository _rep;
         public AccountService(Repository rep) {
             _rep = rep;
+        }
+
+        //<summary>ログイン情報を取得します</summary>
+        public Login GetLoginByLoginId(string loginId)
+        {
+            return _rep.Tx(() => Login.GetByLoginId(_rep, loginId));
         }
 
         //<summary>有効な口座情報を取得します</summary>
         public Account GetAccount(string id)
         {
-            return _rep.Tx(() =>
-                Account.GetValid(_rep, id));
+            return _rep.Tx(() => Account.GetValid(_rep, id));
         }
     }
 }

@@ -21,7 +21,9 @@ namespace Sample.Context
         //</summary>
         public Actor Actor()
         {
-            return ActorSession.Actor();
+            return new Actor { Id = "sample", Name = "sample", RoleType = ActorRoleType.User };
+            //TODO: Identity
+            //return ActorSession.Actor();
         }
     }
 }

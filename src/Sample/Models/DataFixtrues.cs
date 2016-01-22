@@ -20,7 +20,6 @@ namespace Sample.Models
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                //TODO: 開発環境のみに制約
                 DataFixtures.Initialize(serviceScope.ServiceProvider.GetService<Repository>());
             }
         }

@@ -22,6 +22,7 @@ namespace Sample.Context
         public string Source { get; set; }
     }
 
+    //<summary>利用者の役割を表現します。</summary>
     public enum ActorRoleType
     {
         /** 匿名利用者 */
@@ -36,4 +37,19 @@ namespace Sample.Context
         System
     }
 
+    public static class ActorRoleTypes
+    {
+        public static bool IsAnonymous(this ActorRoleType roleType)
+        {
+            return roleType == ActorRoleType.Anonymous;
+        }
+        public static bool IsSystem(this ActorRoleType roleType)
+        {
+            return roleType == ActorRoleType.System;
+        }
+        public static bool NotSystem(this ActorRoleType roleType)
+        {
+            return !IsSystem(roleType);
+        }
+    }
 }

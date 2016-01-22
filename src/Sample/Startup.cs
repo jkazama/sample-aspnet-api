@@ -6,17 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Sample.Context;
 using Sample.Context.Rest;
 using Sample.Models;
-using Sample.Usecases;
 
 namespace Sample
 {
     public class Startup
     {
+        private IHostingEnvironment _env;
         public Startup(IHostingEnvironment env)
         {
+            _env = env;
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("config.json")
                 .AddEnvironmentVariables();
@@ -27,7 +27,7 @@ namespace Sample
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureDependencyInjection(services);
+            DependencyInjections.Configure(services);
             services
                 .AddEntityFramework()
                 .AddSqlite()
@@ -44,12 +44,12 @@ namespace Sample
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
-        }
-        private void ConfigureDependencyInjection(IServiceCollection services)
-        {
-            services.AddSingleton<DomainHelper, DomainHelper>();
-            services.AddSingleton<AccountService, AccountService>();
-            services.AddSingleton<AssetService, AssetService>();
+            if (_env.IsDevelopment())
+            {
+                services
+                    .AddCors(options =>
+                        options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -58,8 +58,12 @@ namespace Sample
             loggerFactory.AddDebug();
             app.UseIISPlatformHandler();
             app.UseStaticFiles();
+            if (_env.IsDevelopment())
+            {
+                app.UseCors("AllowAll");
+                DataFixtures.Initialize(app.ApplicationServices);
+            }
             app.UseMvc();
-            DataFixtures.Initialize(app.ApplicationServices);
         }
 
         // Entry point for the application.
