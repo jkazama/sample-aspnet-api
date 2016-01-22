@@ -14,7 +14,7 @@ namespace Sample.Models
         protected virtual void Initialize(LogLevel logLevel = LogLevel.Warning)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseSqlite("Data Source=./bin/test-" + this.GetType().FullName + ".db");
+            optionsBuilder.UseSqlite("Data Source=./test-" + this.GetType().FullName + ".db");
             this.rep = new Repository(optionsBuilder.Options, new DomainHelper());
             // for log
             var contextServices = ((IInfrastructure<IServiceProvider>)rep).Instance;
