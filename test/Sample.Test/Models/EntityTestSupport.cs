@@ -4,6 +4,7 @@ using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sample.Context;
+using System.IO;
 
 namespace Sample.Models
 {
@@ -13,8 +14,10 @@ namespace Sample.Models
 
         protected virtual void Initialize(LogLevel logLevel = LogLevel.Warning)
         {
+            Directory.CreateDirectory("./bin");
+
             var optionsBuilder = new DbContextOptionsBuilder();
-            optionsBuilder.UseSqlite("Data Source=./test-" + this.GetType().FullName + ".db");
+            optionsBuilder.UseSqlite("Data Source=./bin/test-" + this.GetType().FullName + ".db");
             this.rep = new Repository(optionsBuilder.Options, new DomainHelper());
             // for log
             var contextServices = ((IInfrastructure<IServiceProvider>)rep).Instance;
