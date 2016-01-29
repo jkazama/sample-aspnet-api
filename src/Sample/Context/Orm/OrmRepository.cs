@@ -7,6 +7,7 @@ using Microsoft.Data.Entity.Infrastructure;
 using System.Data;
 using System.Dynamic;
 using System.Data.Common;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Sample.Context.Orm
 {

@@ -109,7 +109,7 @@ namespace Sample.Context.Orm
         // <p>パラメタ引数指定時は @p0 @p1 といった順序文字列でSQL句へバインドさせることが可能です。
         // <p>Entityに紐付けする必要が無いときは OrmRepository#FindSql, OrmRepository#ExecuteSql を利用してください。
         //</summary>
-        public List<TEntity> FindSql(string sql, params object[] parameters)
+        public IList<TEntity> FindSql(string sql, params object[] parameters)
         {
             return EntitySet.FromSql(sql, parameters).ToList();
         }

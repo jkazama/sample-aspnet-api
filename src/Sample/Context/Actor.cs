@@ -1,3 +1,5 @@
+using Microsoft.AspNet.Identity.EntityFramework;
+
 namespace Sample.Context
 {
     //<summary>

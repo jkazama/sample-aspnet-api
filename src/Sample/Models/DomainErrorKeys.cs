@@ -11,6 +11,6 @@ namespace Sample.Models
     public class DomainErrorKeys
     {
         /** マイナスを含めない数字を入力してください */
-        public const string AbsAmountZero = "error.domain.AbsAmount.zero";
+        public const string AbsAmountZero = "error_domain_AbsAmount_zero";
     }
 }

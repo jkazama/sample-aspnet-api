@@ -17,21 +17,15 @@ namespace Sample.Usecases
             _rep = rep;
         }
 
-        //<summary>匿名を除く利用者を返します</summary>
-        private Actor Actor()
-        {
-            return ServiceUtils.ActorUser(_rep.Helper.Actor());
-        }
-
         //<summary>
         // 未処理の振込依頼情報を検索します。
         // low: 参照系は口座ロックが必要無いケースであれば @Transactionalでも十分
         // low: CashInOutは情報過多ですがアプリケーション層では公開対象を特定しにくい事もあり、
         // UI層に最終判断を委ねています。
         //</summary>
-        public List<CashInOut> FindUnprocessedCashOut()
+        public List<CashInOut> FindUnprocessedCashOut(string accountId)
         {
-            return _rep.Tx(() => CashInOut.FindUnprocessed(_rep, Actor().Id));
+            return _rep.Tx(() => CashInOut.FindUnprocessed(_rep, accountId));
         }
 
         //<summary>
@@ -42,7 +36,6 @@ namespace Sample.Usecases
         //</summary>
         public long Withdraw(RegCashOut p)
         {
-            p.AccountId = Actor().Id; // 顧客側はログイン利用者で強制上書き
             var cio = _rep.Tx(() => CashInOut.Withdraw(_rep, p));
             //TODO: メール送信処理
             return cio.Id;

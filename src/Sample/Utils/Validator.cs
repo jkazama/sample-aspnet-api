@@ -1,5 +1,8 @@
 using System;
 using Sample.Context;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Sample.Utils
 {
@@ -36,7 +39,7 @@ namespace Sample.Utils
 
         //<summary>検証します。事前に行ったCheckで例外が存在していた時は例外を発生させます。</summary>
         public Validator Verify() {
-            if (HasWarn()) throw new ValidationException(_warns);
+            if (HasWarn()) throw new Context.ValidationException(_warns);
             return Clear();
         }
 
@@ -57,6 +60,19 @@ namespace Sample.Utils
             Validator validator = new Validator();
             act(validator);
             validator.Verify();
+        }
+
+        //<summary>DataAnnotaionを付与したオブジェクトに対する審査処理を行います</summary>
+        public static void ValidateObject(object target)
+        {
+            Warns warns = Warns.Init();
+            List<ValidationResult> r = new List<ValidationResult>();
+            if (!System.ComponentModel.DataAnnotations.Validator.TryValidateObject(target, new ValidationContext(target, null, null), r, true))
+            {
+                r.ForEach(v => v.MemberNames.ToList().ForEach(field => warns.Add(field, v.ErrorMessage)));
+                throw new Context.ValidationException(warns);
+            }
+
         }
     }
 

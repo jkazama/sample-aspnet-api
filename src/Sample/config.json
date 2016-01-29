@@ -2,6 +2,9 @@
   "Data": {
     "ConnectionString": "Data Source=./sample.db"
   },
+  "Security": {
+     "Enabled":  false
+  },
   "Logging": {
     "IncludeScopes": false,
     "LogLevel": {

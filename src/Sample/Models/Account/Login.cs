@@ -6,6 +6,7 @@ namespace Sample.Models.Account
     //<summary>
     // 口座ログインを表現します。
     // low: サンプル用に必要最低限の項目だけ口座状態を表現します
+    // low: ApplicationUserとの統合
     //</summary>
     public class Login : OrmActiveRecord<Login>
     {

@@ -1,10 +1,12 @@
 ﻿using Sample.Context;
 using Sample.Context.Orm;
 using Sample.Models.Account;
+using Sample.Models.Constraints;
 using Sample.Models.Master;
 using Sample.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -19,6 +21,7 @@ namespace Sample.Models.Asset
     public class CashInOut : OrmActiveRecord<CashInOut>
     {
         /** ID */
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         /** 口座ID */
@@ -182,7 +185,7 @@ namespace Sample.Models.Asset
             var valueDay = eventDay.AddDays(3);
 
             // 事前審査
-            Validator.Validate(v =>
+            Utils.Validator.Validate(v =>
             {
                 v.VerifyField(0 < p.AbsAmount, "absAmount", DomainErrorKeys.AbsAmountZero);
                 v.VerifyField(
@@ -209,8 +212,11 @@ namespace Sample.Models.Asset
     //<summary>振込出金の依頼パラメタ。</summary>
     public class RegCashOut : IDto
     {
+        [Required]
         public string AccountId { get; set; }
+        [Required]
         public string Currency { get; set; }
+        [Required, AbsAmount]
         public decimal AbsAmount { get; set; }
 
         public CashInOut Create(TimePoint now, DateTime eventDay, DateTime valueDay, FiAccount acc, SelfFiAccount selfAcc)

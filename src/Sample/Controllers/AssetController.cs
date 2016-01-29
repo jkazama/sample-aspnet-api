@@ -1,8 +1,11 @@
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Sample.Context;
 using Sample.Models.Asset;
+using Sample.Models.Constraints;
 using Sample.Usecases;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Sample.Controllers
@@ -10,11 +13,12 @@ namespace Sample.Controllers
     //<summary>
     // 資産に関わる顧客のUI要求を処理します。
     //</summary>
+    //[Authorize]
     [Route("api/[controller]")]
-    public class AssetController : Controller
+    public class AssetController : ControllerSupport
     {
         private readonly AssetService _service;
-        public AssetController(AssetService service)
+        public AssetController(DomainHelper helper, AssetService service) : base(helper)
         {
             _service = service;
         }
@@ -23,20 +27,11 @@ namespace Sample.Controllers
         [HttpGet("cio/unprocessedOut/")]
         public IActionResult FindUnProcessedOut()
         {
-            return this.Json(_service.FindUnprocessedCashOut().Select(cio => CashOutUI.Of(cio)).ToList());
-        }
-
-        //<summary>
-        // 振込出金依頼をします。
-        //</summary>
-        [HttpPost("cio/withdraw")]
-        public IActionResult Withdraw(RegCashOut p)
-        {
-            return this.Json(_service.Withdraw(p));
+            return this.Json(_service.FindUnprocessedCashOut(Actor().Id).Select(cio => CashOutUI.Of(cio)).ToList());
         }
 
         //<summary>振込出金依頼情報の表示用Dto</summary>
-        class CashOutUI
+        public class CashOutUI
         {
             public long Id { get; set; }
             public string Currency { get; set; }
@@ -64,6 +59,29 @@ namespace Sample.Controllers
                     UpdateDate = cio.UpdateDate,
                     CashflowId = cio.CashflowId
                 };
+            }
+        }
+
+        //<summary>
+        // 振込出金依頼をします。
+        //</summary>
+        [HttpPost("cio/withdraw")]
+        public IActionResult Withdraw(RegCashOutRetail p)
+        {
+            VerifyModel();
+            return this.Json(_service.Withdraw(p.To(Actor().Id)));
+        }
+
+        //<summary>口座IDを省略した振込出金依頼Dto</summary>
+        public class RegCashOutRetail
+        {
+            [Required]
+            public string Currency { get; set; }
+            [Required, AbsAmount]
+            public decimal AbsAmount { get; set; }
+            public RegCashOut To(string accountId)
+            {
+                return new RegCashOut { AccountId = accountId, Currency = Currency, AbsAmount = AbsAmount };
             }
         }
     }

@@ -65,7 +65,7 @@ namespace Sample.Models.Account
         public static Account Register(Repository rep, RegAccount p)
         {
             Validator.Validate(v => v.CheckField(Get(rep, p.Id) == null, "id", ErrorKeys.DuplicateId));
-            p.CreateLogin(p.PlainPassword).Save(rep); //TODO: パスワード暗号化
+            p.CreateLogin(p.PlainPassword).Save(rep); //TODO: ApplicationUserの登録
             return p.Create().Save(rep);
         }
     }
@@ -81,7 +81,7 @@ namespace Sample.Models.Account
     public static class AccountStatusTypes
     {
         //<summary>口座状態一覧</summary>
-        public static List<AccountStatusType> All =
+        public static IList<AccountStatusType> All =
             Enum.GetValues(typeof(AccountStatusType)).Cast<AccountStatusType>().ToList();
         public static bool Valid(this AccountStatusType statusType) { return statusType == AccountStatusType.Normal; }
         public static bool Invalid(this AccountStatusType statusType) { return !Valid(statusType); }

@@ -1,4 +1,5 @@
 using Sample.Context.Orm;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sample.Models.Account
 {
@@ -10,6 +11,7 @@ namespace Sample.Models.Account
     public class FiAccount : OrmActiveRecord<FiAccount>
     {
         /** ID */
+        [Key]
         public long Id { get; set; }
         /** 口座ID */
         public string AccountId { get; set; }
