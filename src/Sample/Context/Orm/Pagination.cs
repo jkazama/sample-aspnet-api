@@ -1,4 +1,4 @@
-﻿using Sample.Utils;
+using Sample.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

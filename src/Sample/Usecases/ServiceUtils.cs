@@ -1,4 +1,4 @@
-﻿using Sample.Context;
+using Sample.Context;
 
 namespace Sample.Usecases
 {

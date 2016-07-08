@@ -1,4 +1,4 @@
-﻿using Sample.Models;
+using Sample.Models;
 using Sample.Models.Asset;
 using System;
 using System.Collections.Generic;

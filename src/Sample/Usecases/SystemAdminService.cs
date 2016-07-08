@@ -1,4 +1,4 @@
-﻿using Sample.Models;
+using Sample.Models;
 
 namespace Sample.Usecases
 {

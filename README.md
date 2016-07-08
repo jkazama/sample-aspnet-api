@@ -91,7 +91,7 @@ https://www.microsoft.com/net/core#macos
     - Startup.cs を見れば分かるようにファイル DB 構築と CORS 設定を有効にしています
 - `dotnet run` を実行してアプリケーションを起動
 
-※テスト確認したいなら test/Sample.Test 直下へ移動して、 `dotnet test` を実行してください。
+※テスト確認したいなら test/Sample.Test 直下へ移動して、 `dotnet restore` `dotnet test` を実行してください。
 
 ### 補足解説（インフラ層）
 

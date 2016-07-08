@@ -1,4 +1,4 @@
-﻿using Sample.Context;
+using Sample.Context;
 using System;
 using Xunit;
 

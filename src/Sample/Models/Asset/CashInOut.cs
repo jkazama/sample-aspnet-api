@@ -1,4 +1,4 @@
-﻿using Sample.Context;
+using Sample.Context;
 using Sample.Context.Orm;
 using Sample.Models.Account;
 using Sample.Models.Constraints;
