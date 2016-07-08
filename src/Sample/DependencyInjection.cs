@@ -4,10 +4,7 @@ using Sample.Usecases;
 
 namespace Sample
 {
-    //<summary>
-    // DI利用可能とするクラスを定義します。
-    //</summary>
-    public static class DependencyInjection
+    public class DependencyInjection
     {
         public static void Configure(IServiceCollection services)
         {
@@ -17,5 +14,6 @@ namespace Sample
             services.AddSingleton<MasterAdminService, MasterAdminService>();
             services.AddSingleton<SystemAdminService, SystemAdminService>();
         }
+
     }
 }

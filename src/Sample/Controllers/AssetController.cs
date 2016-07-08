@@ -1,11 +1,10 @@
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sample.Context;
 using Sample.Models.Asset;
 using Sample.Models.Constraints;
 using Sample.Usecases;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Sample.Controllers
@@ -75,13 +74,13 @@ namespace Sample.Controllers
         //<summary>口座IDを省略した振込出金依頼Dto</summary>
         public class RegCashOutRetail
         {
-            [Required]
+            [NotNull]
             public string Currency { get; set; }
-            [Required, AbsAmount]
-            public decimal AbsAmount { get; set; }
+            [NotNull, AbsAmount]
+            public decimal? AbsAmount { get; set; }
             public RegCashOut To(string accountId)
             {
-                return new RegCashOut { AccountId = accountId, Currency = Currency, AbsAmount = AbsAmount };
+                return new RegCashOut { AccountId = accountId, Currency = Currency, AbsAmount = AbsAmount.GetValueOrDefault(0) };
             }
         }
     }

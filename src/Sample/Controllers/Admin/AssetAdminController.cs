@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sample.Context;
 using Sample.Models.Asset;
 using Sample.Usecases;

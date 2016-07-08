@@ -1,23 +1,26 @@
 {
     "version": "1.0.0-*",
-    "description": "",
-    "authors": [ "" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
-    "tooling": {
-      "defaultNamespace": "Sample.Test.Utils"
-    },
+    "testRunner": "xunit",
     "dependencies": {
-        "xunit": "2.1.0",
-        "xunit.runner.dnx": "2.1.0-rc1-build204",
+        "Microsoft.NETCore.App": {
+            "version": "1.0.0",
+            "type": "platform"
+        },
+        "xunit": "2.2.0-beta2-build3300",
+        "dotnet-test-xunit": "2.2.0-preview2-build1029",
         "Sample": "1.0.0-*"
     },
-    "commands": {
-        "test": "xunit.runner.dnx"
-    },
     "frameworks": {
-        "dnx46": { },
-        "dnxcore50": { }
+        "netcoreapp1.0": {
+            "imports": [
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
+        }
+    },
+    "buildOptions": {
+        "copyToOutput": {
+            "include": [ "xunit.runner.json" ]
+        }
     }
 }

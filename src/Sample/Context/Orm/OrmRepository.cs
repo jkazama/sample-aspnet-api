@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Data;
 using System.Dynamic;
 using System.Data.Common;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Sample.Context.Orm
 {
@@ -101,7 +101,7 @@ namespace Sample.Context.Orm
         {
             TEntity v = Get(predicate);
             if (v != null) return v;
-            else throw new ValidationException(ErrorKeys.EntityNotFound);
+            else throw new ValidationException(Resources.Exception.EntityNotFound);
         }
         //<summary>
         // 指定したLINQ句に合致するEntityが存在する時はtrue。
@@ -134,7 +134,7 @@ namespace Sample.Context.Orm
         // Entityを変更します。
         // <p>SaveChangesは自動的に呼び出されます。
         //</summary>
-        public TEntity Update<TEntity>(TEntity entity) where TEntity : class
+        public TEntity Change<TEntity>(TEntity entity) where TEntity : class
         {
             EntitySet<TEntity>().Update(entity);
             SaveChanges();

@@ -52,7 +52,7 @@ namespace Sample.Models.Master
         //<summary>社員を登録します</summary>
         public static Staff Register(Repository rep, RegStaff p)
         {
-            Validator.Validate(v => v.CheckField(Staff.Get(rep, p.Id) == null, "id", ErrorKeys.DuplicateId));
+            Validator.Validate(v => v.CheckField(Staff.Get(rep, p.Id) == null, "id", Resources.Exception.DuplicateId));
             return p.Create(p.PlainPassword).Save(rep); //TODO: 暗号化
         }
     }

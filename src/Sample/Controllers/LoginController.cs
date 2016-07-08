@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sample.Context;
+using Sample.Models.Constraints;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sample.Controllers
@@ -15,14 +16,13 @@ namespace Sample.Controllers
         public IActionResult Login(LoginRequest p)
         {
             VerifyModel();
-            //HttpContext.Authentication
             return this.Json(true);
         }
         public class LoginRequest
         {
-            [Required]
+            [NotNull]
             public string LoginId { get; set; }
-            [Required]
+            [NotNull]
             public string PlainPassword { get; set; }
         }
 

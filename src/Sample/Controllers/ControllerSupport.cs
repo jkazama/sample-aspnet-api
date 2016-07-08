@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using Microsoft.AspNet.Mvc;
-using System;
-using Microsoft.AspNet.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sample.Context;
+using System.Linq;
 
 namespace Sample.Controllers
 {
@@ -19,7 +17,7 @@ namespace Sample.Controllers
         protected Actor Actor()
         {
             var actor = Helper.Actor();
-            if (actor.RoleType.IsAnonymous()) throw new ValidationException(ErrorKeys.Authentication);
+            if (actor.RoleType.IsAnonymous()) throw new ValidationException(Resources.Exception.Authentication);
             return actor;
         }
 
@@ -31,11 +29,16 @@ namespace Sample.Controllers
             if (!ModelState.IsValid)
             {
                 Warns warns = Warns.Init();
-                ModelState.Where(v => v.Value.ValidationState == ModelValidationState.Invalid)
-                    .ToList().ForEach(v => v.Value.Errors.ToList().ForEach(msg => warns.Add(v.Key, msg.ErrorMessage)));
+                ModelState.ToList().ForEach(v => v.Value.Errors.ToList().ForEach(msg =>
+                {
+                    warns.Add(FieldName(v.Key), msg.ErrorMessage);
+                }));
                 throw new ValidationException(warns);
             }
-
+        }
+        private string FieldName(string field)
+        {
+            return field.Substring(field.IndexOf('.') + 1);
         }
     }
 }

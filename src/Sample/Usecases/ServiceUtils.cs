@@ -10,7 +10,7 @@ namespace Sample.Usecases
         public static Actor ActorUser(Actor actor)
         {
             if (actor.RoleType.IsAnonymous())
-                throw new ValidationException(ErrorKeys.Authentication);
+                throw new ValidationException(Resources.Exception.Authentication);
             return actor;
         }
     }

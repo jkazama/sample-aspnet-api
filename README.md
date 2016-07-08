@@ -1,24 +1,14 @@
-sample-aspnet-core
+sample-aspnet-api
 ----
 
 ### はじめに
 
-[ASP.NET Core](http://docs.asp.net/en/latest/conceptual-overview/dotnetcore.html) を元にしたアプリケーション開発サンプルです。
+[ASP.NET Core](https://docs.asp.net/en/latest/) を元にしたアプリケーション開発サンプルです。
 
 本サンプルは開発フレームワークというよりも、開発時の初期テンプレート的扱いで利用可能です。
-依存ライブラリも純粋なOSSで閉じているため、学習用ととしても手軽に利用できます。
 
 本サンプルはAPI機能のみ有しています。
 UI側の実装サンプルについては[sample-ui-vue](https://github.com/jkazama/sample-ui-vue) / [sample-ui-react](https://github.com/jkazama/sample-ui-react)を参照してください。
-
----
-
-ASP.NET Core はまだRC版という事もあり、API等の仕様は完全ではありません。  
-本来あるべき実装(認証/国際化/監査 等)も入れられていないので、簡単な動作確認用途で利用してください。
-
-> 不足機能は徐々に追加していく予定  
-> 現時点で一般的な ASP.NET 4.5 版は別レポジトリで準備する予定  
-
 
 #### レイヤリングの考え方
 
@@ -29,15 +19,15 @@ ASP.NET Core はまだRC版という事もあり、API等の仕様は完全で�
 | UI             | ユースケース処理を公開(必要に応じてリモーティングや外部サイトを連携) |
 | アプリケーション | ユースケース処理を集約(外部リソースアクセスも含む)                 |
 | ドメイン        | 純粋なドメイン処理(外部リソースに依存しない)                      |
-| インフラ        | DIコンテナやORM、各種ライブラリ、メッセージリソースの提供          |
+| インフラ        | DI コンテナや ORM 、各種ライブラリ、メッセージリソースの提供          |
 
-UI層の公開処理は通常Razorを用いて行いますが、本サンプルでは異なる種類のクライアント利用を想定してRESTfulAPIでのAPI提供のみをおこないます。(利用クライアントは別途用意する必要があります)
+UI 層の公開処理は通常 Razor を用いて行いますが、本サンプルでは異なる種類のクライアント利用を想定して RESTfulAPI での API 提供のみをおこないます。(利用クライアントは別途用意する必要があります)
 
 #### ASP.NET Core の利用方針
 
 ASP.NET Core は様々な利用方法が可能ですが、本サンプルでは以下のポリシーで利用します。
 
-- 例外処理は基本上位委譲で終端(RestErrorFilter)で捕捉定義
+- 例外処理は基本上位委譲で終端 ( RestErrorFilter ) で捕捉定義
 - ORM 実装として EntityFramework を利用
 - 認証 / 認可は Identity を想定 (現在は未使用)
 
@@ -59,9 +49,11 @@ src
     Models                          … ドメイン層
     Usecases                        … アプリケーション層
     Utils                           … 汎用ユーティリティ
+    - config.json                   … プロジェクト設定情報
     - project.json                  … プロジェクト構成定義
-    - DependencyInjection           … DI定義
-    - Startup.cs                    … 実行可能な起動クラス
+    - DependencyInjection.cs        … DI定義
+    - Program.cs                    … 実行可能な起動クラス
+    - Startup.cs                    … 起動構成定義クラス
 ```
 
 ### サンプルユースケース
@@ -75,22 +67,31 @@ src
 
 ### 環境構築手順
 
+> サンプルなので、DB は SQLite を利用したファイルベースにしています。実際の開発用途では SQLServer などに変更してください。
+
 #### Windows での環境構築手順
 
-> 開発時は Visual Studio 2015 を入れてしまう手順 ( Install ASP.NET 5 with Visual Studio ) が簡単でオススメです。
+> 開発時は Visual Studio 2015 を入れてしまうのが簡単でオススメです。
 
-https://docs.asp.net/en/latest/getting-started/installing-on-windows.html
+https://www.microsoft.com/net/core#windows
 
 環境構築後に Sample.sln をダブルクリックで Visual Studio 2015 からアプリケーションを実行できます。
 
 #### Mac での環境構築手順
 
-> 開発時は Visual Studio Code を入れてしまう手順 ( Install ASP.NET 5 with Visual Studio Code ) が良いですが、Mac 上での実行確認だけならコンソールベース ( Install ASP.NET 5 from the command-line ) でも十分です。
+> 開発時は Visual Studio Code を入れてしまうのが良いですが、Mac 上での実行確認だけならコンソールベースで十分です。
 
-https://docs.asp.net/en/latest/getting-started/installing-on-mac.html
+https://www.microsoft.com/net/core#macos
 
-環境構築後に src/Sample 直下へ移動して、 `dnx web` を実行すればアプリケーションが起動します。  
-※テスト確認したいなら test/Sample.Test 直下へ移動して、 `dnx test` を実行してください。
+動作確認手順は以下を参考にしてください。
+
+- 環境構築後に src/Sample 直下へ移動する
+- `dotnet restore` を実行してライブラリ構成をロード
+- `export ASPNETCORE_ENVIRONMENT=Development` で起動変数を開発モードに
+    - Startup.cs を見れば分かるようにファイル DB 構築と CORS 設定を有効にしています
+- `dotnet run` を実行してアプリケーションを起動
+
+※テスト確認したいなら test/Sample.Test 直下へ移動して、 `dotnet test` を実行してください。
 
 ### 補足解説（インフラ層）
 
@@ -100,8 +101,9 @@ ASP.NET Core ベースの Identity 実装がまだ完全に消化できていな
 
 #### 国際化
 
-現状試したけど resx がうまく読み込めなくて挫折。以下議論のオチが反映されてから再度挑戦。
-https://github.com/aspnet/Home/issues/1142
+Resources 配下のクラスを利用。
+
+> IStringLocalizer 経由が推奨？
 
 ### 残作業
 

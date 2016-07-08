@@ -13,8 +13,7 @@ namespace Sample.Models.Constraints
     {
         public AbsAmount()
         {
-            // error_domain_absAmount
-            this.ErrorMessage = "マイナスを含めない数字を入力してください。";
+            this.ErrorMessage = Resources.Exception.DomainAbsAmount;
         }
 
         public override bool IsValid(object value)

@@ -38,7 +38,7 @@ namespace Sample.Context
         //<summary>
         // Entityを更新します。
         //</summary>
-        TEntity Update<TEntity>(TEntity entity) where TEntity : class;
+        TEntity Change<TEntity>(TEntity entity) where TEntity : class;
 
         //<summary>
         // Entityを削除します。

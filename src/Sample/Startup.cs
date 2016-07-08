@@ -1,22 +1,19 @@
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Localization;
-using Microsoft.AspNet.Mvc.Filters;
-using Microsoft.Data.Entity;
+Ôªøusing Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Sample.Context;
 using Sample.Context.Rest;
 using Sample.Models;
 using Sample.Models.Account;
 using System;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -27,32 +24,34 @@ namespace Sample
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("config.json")
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; }
 
         //<summary>
-        // ÉTÅ[ÉrÉXìoò^ÇÇµÇ‹Ç∑ÅB
+        // „Çµ„Éº„Éì„Çπ„ÇíÁôªÈå≤„Åó„Åæ„Åô„ÄÇ
         //</summary>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Local Dependency Injection
             DependencyInjection.Configure(services);
-            
-            // i18n [çëç€âª]
+
+            // i18n [ÂõΩÈöõÂåñ]
             services
                 .AddLocalization(options => options.ResourcesPath = "Resources");
 
-            // Entity Framework [ÉfÅ[É^ÉAÉNÉZÉX]
+            // Entity Framework [„Éá„Éº„Çø„Ç¢„ÇØ„Çª„Çπ]
             services
-                .AddEntityFramework()
-                .AddSqlite()
+                .AddEntityFrameworkSqlite()
                 .AddDbContext<Repository>(options =>
                     options.UseSqlite(Configuration["Data:ConnectionString"]));
-
-            // Identity [îFèÿ / îFâ¬]
+            
+            // Identity [Ë™çË®º / Ë™çÂèØ]
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
@@ -82,21 +81,27 @@ namespace Sample
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
+
             services
                 .AddCors(options =>
                     options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
         }
 
         //<summary>
-        // ÉTÅ[ÉrÉXÇóLå¯âªÇµÇ‹Ç∑ÅB
+        // „Çµ„Éº„Éì„Çπ„ÇíÊúâÂäπÂåñ„Åó„Åæ„Åô„ÄÇ
         //</summary>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IStringLocalizer<Startup> SR)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseRequestLocalization(new RequestCulture("en"));
-            app.UseIISPlatformHandler();
+            var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("ja") };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ja"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
             app.UseStaticFiles();
             if (env.IsDevelopment())
             {
@@ -111,22 +116,5 @@ namespace Sample
             }
             app.UseMvc();
         }
-        
-        // ãNìÆèàóù
-        public static void Main(string[] args) => Microsoft.AspNet.Hosting.WebApplication.Run<Startup>(args);
     }
-
-    //public class DummyLoginFilter : IAuthorizationFilter
-    //{
-    //    public async void OnAuthorization(AuthorizationContext context)
-    //    {
-    //        var hoge = "";
-    //        var service = context.HttpContext.ApplicationServices.GetService<SignInManager<ApplicationUser>>();
-            
-    //        var ret = await service.PasswordSignInAsync(new ApplicationUser { Id = "hoge" }, "", false, false);
-    //        await service.SignInAsync(new ApplicationUser { Id = "sample" }, true);
-    //        //context.HttpContext.Authentication
-    //    }
-    //}
-
 }

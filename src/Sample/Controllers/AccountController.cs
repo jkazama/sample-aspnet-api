@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Sample.Usecases;
 using Sample.Models.Account;
 using Sample.Context;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sample.Controllers
 {

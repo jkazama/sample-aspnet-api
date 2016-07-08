@@ -117,10 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="error_domain_AbsAmount" xml:space="preserve">
+  <data name="CashflowBeforeEqualsDay" xml:space="preserve">
+    <value>既に受渡日を迎えています</value>
+  </data>
+  <data name="CashflowRealizeDay" xml:space="preserve">
+    <value>受渡日を迎えていないため実現できません</value>
+  </data>
+  <data name="CashInOutAfterEqualsDay" xml:space="preserve">
+    <value>未到来の受渡日です</value>
+  </data>
+  <data name="CashInOutBeforeEqualsDay" xml:space="preserve">
+    <value>既に発生日を迎えています</value>
+  </data>
+  <data name="CashInOutWithdrawAmount" xml:space="preserve">
+    <value>出金可能額を超えています</value>
+  </data>
+  <data name="DomainAbsAmount" xml:space="preserve">
     <value>マイナスを含めない数字を入力してください。</value>
   </data>
-  <data name="error_domain_AbsAmount_zero" xml:space="preserve">
+  <data name="DomainAbsAmountZero" xml:space="preserve">
     <value>マイナスを含めない数字を入力してください。</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>対象機能の利用が認められていません</value>
+  </data>
+  <data name="ActionUnprocessing" xml:space="preserve">
+    <value>既に処理済の情報です</value>
+  </data>
+  <data name="Authentication" xml:space="preserve">
+    <value>ログイン状態が有効ではありません</value>
+  </data>
+  <data name="DuplicateId" xml:space="preserve">
+    <value>既に登録されているIDです</value>
+  </data>
+  <data name="EntityNotFound" xml:space="preserve">
+    <value>情報が見つかりませんでした</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>サーバー側で問題が発生した可能性があります</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>ログインに失敗しました</value>
+  </data>
+  <data name="PropertyValueRequired" xml:space="preserve">
+    <value>入力してください</value>
   </data>
 </root>

@@ -1,16 +1,16 @@
-{
-  "Data": {
-    "ConnectionString": "Data Source=./sample.db"
-  },
-  "Security": {
-     "Enabled":  false
-  },
-  "Logging": {
-    "IncludeScopes": false,
-    "LogLevel": {
-      "Default": "Verbose",
-      "System": "Information",
-      "Microsoft": "Information"
+﻿{
+    "Data": {
+        "ConnectionString": "Data Source=./sample.db"
+    },
+    "Security": {
+        "Enabled": false
+    },
+    "Logging": {
+        "IncludeScopes": false,
+        "LogLevel": {
+            "Default": "Verbose",
+            "System": "Information",
+            "Microsoft": "Information"
+        }
     }
-  }
 }

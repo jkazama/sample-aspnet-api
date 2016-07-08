@@ -42,8 +42,8 @@ namespace Sample.Models.Asset
         {
             Validate(v =>
             {
-                v.Verify(CanRealize(rep), AssetErrorKeys.CashflowRealizeDay);
-                v.Verify(StatusType.IsUnprocessing(), ErrorKeys.ActionUnprocessing);
+                v.Verify(CanRealize(rep), Resources.Exception.CashflowRealizeDay);
+                v.Verify(StatusType.IsUnprocessing(), Resources.Exception.ActionUnprocessing);
             });
 
             StatusType = ActionStatusType.Processed;
@@ -55,7 +55,7 @@ namespace Sample.Models.Asset
         //<summary>キャッシュフローを実現(受渡)可能か判定します。</summary>
         public Cashflow Error(Repository rep)
         {
-            Validate(v => v.Verify(StatusType.IsUnprocessed(), ErrorKeys.ActionUnprocessing));
+            Validate(v => v.Verify(StatusType.IsUnprocessed(), Resources.Exception.ActionUnprocessing));
 
             StatusType = ActionStatusType.Error;
             return Update(rep);
@@ -97,7 +97,7 @@ namespace Sample.Models.Asset
         public static Cashflow Register(Repository rep, RegCashflow p)
         {
             var now = rep.Helper.Time.Tp();
-            Validator.Validate(v => v.CheckField(now.BeforeEqualsDay(p.ValueDay), "valueDay", AssetErrorKeys.CashflowBeforeEqualsDay));
+            Validator.Validate(v => v.CheckField(now.BeforeEqualsDay(p.ValueDay), "valueDay", Resources.Exception.CashflowBeforeEqualsDay));
             var cf = p.Create(now).Save(rep);
             return cf.CanRealize(rep) ? cf.Realize(rep) : cf;
         }

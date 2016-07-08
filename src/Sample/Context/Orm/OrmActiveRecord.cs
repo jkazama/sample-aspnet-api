@@ -26,7 +26,7 @@ namespace Sample.Context.Orm
         //<summary>与えられたレポジトリを経由して自身を更新します。</summary>
         public TEntity Update(OrmRepository rep)
         {
-            return rep.Update<TEntity>(this as TEntity);
+            return rep.Change<TEntity>(this as TEntity);
         }
         //<summary>与えられたレポジトリを経由して自身を物理削除します。</summary>
         public TEntity Delete(OrmRepository rep)

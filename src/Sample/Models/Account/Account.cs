@@ -64,7 +64,7 @@ namespace Sample.Models.Account
         //</summary>
         public static Account Register(Repository rep, RegAccount p)
         {
-            Validator.Validate(v => v.CheckField(Get(rep, p.Id) == null, "id", ErrorKeys.DuplicateId));
+            Validator.Validate(v => v.CheckField(Get(rep, p.Id) == null, "id", Resources.Exception.DuplicateId));
             p.CreateLogin(p.PlainPassword).Save(rep); //TODO: ApplicationUserの登録
             return p.Create().Save(rep);
         }

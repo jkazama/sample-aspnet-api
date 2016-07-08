@@ -65,8 +65,8 @@ namespace Sample.Models.Asset
             // 事前審査
             Validate(v =>
             {
-                v.Verify(StatusType.IsUnprocessed(), ErrorKeys.ActionUnprocessing);
-                v.Verify(now.AfterEqualsDay(EventDay), AssetErrorKeys.CashInOutAfterEqualsDay);
+                v.Verify(StatusType.IsUnprocessed(), Resources.Exception.ActionUnprocessing);
+                v.Verify(now.AfterEqualsDay(EventDay), Resources.Exception.CashInOutAfterEqualsDay);
             });
             // 処理済状態を反映
             StatusType = ActionStatusType.Processed;
@@ -102,8 +102,8 @@ namespace Sample.Models.Asset
             // 事前審査
             Validate(v =>
             {
-                v.Verify(StatusType.IsUnprocessing(), ErrorKeys.ActionUnprocessing);
-                v.Verify(now.BeforeDay(EventDay), AssetErrorKeys.CashInOutBeforeEqualsDay);
+                v.Verify(StatusType.IsUnprocessing(), Resources.Exception.ActionUnprocessing);
+                v.Verify(now.BeforeDay(EventDay), Resources.Exception.CashInOutBeforeEqualsDay);
             });
             // 取消状態を反映
             StatusType = ActionStatusType.Cancelled;
@@ -119,7 +119,7 @@ namespace Sample.Models.Asset
         public CashInOut Error(Repository rep)
         {
             // 事前審査
-            Validate(v => v.Verify(StatusType.IsUnprocessed(), ErrorKeys.ActionUnprocessing));
+            Validate(v => v.Verify(StatusType.IsUnprocessed(), Resources.Exception.ActionUnprocessing));
 
             // 取消状態を反映
             StatusType = ActionStatusType.Error;
@@ -187,10 +187,10 @@ namespace Sample.Models.Asset
             // 事前審査
             Utils.Validator.Validate(v =>
             {
-                v.VerifyField(0 < p.AbsAmount, "absAmount", DomainErrorKeys.AbsAmountZero);
+                v.VerifyField(0 < p.AbsAmount, "absAmount", Resources.Exception.DomainAbsAmountZero);
                 v.VerifyField(
                     Asset.Of(p.AccountId).CanWithdraw(rep, p.Currency, p.AbsAmount, valueDay),
-                    "absAmount", AssetErrorKeys.CashInOutWithdrawAmount);
+                    "absAmount", Resources.Exception.CashInOutWithdrawAmount);
             });
 
             // 出金依頼情報を登録

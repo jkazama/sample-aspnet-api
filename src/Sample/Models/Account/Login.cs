@@ -21,7 +21,7 @@ namespace Sample.Models.Account
         public Login Change(Repository rep, ChgLoginId p)
         {
             bool exists = rep.Get<Login>(m => m.Id != Id && m.LoginId == p.LoginId) != null;
-            Validate(v => v.CheckField(!exists, "loginId", ErrorKeys.DuplicateId));
+            Validate(v => v.CheckField(!exists, "loginId", Resources.Exception.DuplicateId));
             return p.Bind(this).Update(rep);
         }
         //<summary>パスワードを変更します</summary>
