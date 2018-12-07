@@ -71,11 +71,11 @@ Sample.Tests                      … テストプロジェクト
 
 #### Windows での環境構築手順
 
-> 開発時は Visual Studio 2015 を入れてしまうのが簡単でオススメです。
+> 開発時は最新の Visual Studio を入れてしまうのが簡単でオススメです。過去バージョン等でインポートが難しいようであれば Visual Studio Code を利用してください。
 
 https://www.microsoft.com/net/core#windows
 
-環境構築後に sample-aspnet-api.sln をダブルクリックで Visual Studio 2015 からアプリケーションを実行できます。
+環境構築後に sample-aspnet-api.sln をダブルクリックで Visual Studio からアプリケーションを実行できます。
 
 #### Mac での環境構築手順
 
