@@ -42,18 +42,18 @@ TBD
 パッケージ/リソース構成については以下を参照してください。
 
 ```
-src
-  Sample
-    Context                         … インフラ層
-    Controllers                     … UI層
-    Models                          … ドメイン層
-    Usecases                        … アプリケーション層
-    Utils                           … 汎用ユーティリティ
-    - config.json                   … プロジェクト設定情報
-    - project.json                  … プロジェクト構成定義
-    - DependencyInjection.cs        … DI定義
-    - Program.cs                    … 実行可能な起動クラス
-    - Startup.cs                    … 起動構成定義クラス
+Sample
+  Context                         … インフラ層
+  Controllers                     … UI層
+  Models                          … ドメイン層
+  Usecases                        … アプリケーション層
+  Utils                           … 汎用ユーティリティ
+  - config.json                   … プロジェクト設定情報
+  - project.json                  … プロジェクト構成定義
+  - DependencyInjection.cs        … DI定義
+  - Program.cs                    … 実行可能な起動クラス
+  - Startup.cs                    … 起動構成定義クラス
+Sample.Tests                      … テストプロジェクト
 ```
 
 ### サンプルユースケース
@@ -75,7 +75,7 @@ src
 
 https://www.microsoft.com/net/core#windows
 
-環境構築後に Sample.sln をダブルクリックで Visual Studio 2015 からアプリケーションを実行できます。
+環境構築後に sample-aspnet-api.sln をダブルクリックで Visual Studio 2015 からアプリケーションを実行できます。
 
 #### Mac での環境構築手順
 
@@ -85,13 +85,12 @@ https://www.microsoft.com/net/core#macos
 
 動作確認手順は以下を参考にしてください。
 
-- 環境構築後に src/Sample 直下へ移動する
-- `dotnet restore` を実行してライブラリ構成をロード
+- 環境構築後に Sample 直下へ移動する
 - `export ASPNETCORE_ENVIRONMENT=Development` で起動変数を開発モードに
     - Startup.cs を見れば分かるようにファイル DB 構築と CORS 設定を有効にしています
 - `dotnet run` を実行してアプリケーションを起動
 
-※テスト確認したいなら test/Sample.Test 直下へ移動して、 `dotnet restore` `dotnet test` を実行してください。
+※テスト確認したいなら Sample.Test 直下へ移動して、 `dotnet test` を実行してください。
 
 ### 補足解説（インフラ層）
 
@@ -103,11 +102,10 @@ ASP.NET Core ベースの Identity 実装がまだ完全に消化できていな
 
 Resources 配下のクラスを利用。
 
-> IStringLocalizer 経由が推奨？
-
 ### 残作業
 
 - Identity を利用した認証/認可のサポート
 - Repository絡みで起こるであろうリソースリークを想定してライフサイクルでの正確な挙動を調べる
 - 非同期系の考慮 (async / await 適用すべき箇所をまだあまり調べられてない)
 - キャッシングの追加
+- ロギング周りの最適化
